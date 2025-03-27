@@ -54,4 +54,11 @@ public class UserServiceImpl implements UserService {
         return "Utilisateur supprimé !";
     }
 
+    @Override
+    public UserDTO lireUn(Long id) {
+        User user = userRepository.findById(id)
+              .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'ID : " + id));
+        return UserMapper.INSTANCE.toDto(user);
+}
+
 }

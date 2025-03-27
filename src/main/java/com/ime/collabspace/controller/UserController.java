@@ -5,7 +5,6 @@ import java.util.List;
 import com.ime.collabspace.service.dto.UserDTO;
 import org.springframework.web.bind.annotation.*;
 
-import com.ime.collabspace.model.User;
 import com.ime.collabspace.service.UserService;
 
 @RestController
@@ -37,6 +36,11 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         return userService.supprimer(id);
+    }
+
+    @GetMapping("/readOne/{id}")
+    public UserDTO readOne(@PathVariable Long id) {
+        return userService.lireUn(id);
     }
 
 }

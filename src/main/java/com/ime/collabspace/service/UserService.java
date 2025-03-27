@@ -2,7 +2,6 @@ package com.ime.collabspace.service;
 
 import java.util.List;
 
-import com.ime.collabspace.model.User;
 import com.ime.collabspace.service.dto.UserDTO;
 
 public interface UserService {
@@ -13,5 +12,7 @@ public interface UserService {
     UserDTO modifier(Long id, UserDTO userDTO);
 
     String supprimer(Long id);
+
+    UserDTO lireUn(Long id);
 
 }
