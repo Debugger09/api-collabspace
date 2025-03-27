@@ -1,7 +1,10 @@
 package com.ime.collabspace.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.ime.collabspace.service.dto.UserDTO;
+import com.ime.collabspace.service.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import com.ime.collabspace.model.User;
@@ -18,27 +21,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User creer(User user) {
-        return userRepository.save(user);
+    public UserDTO creer(UserDTO userDTO) {
+           User  user=userRepository.save(UserMapper.INSTANCE.toEntity(userDTO));
+        return UserMapper.INSTANCE.toDto(user);
     }
 
     @Override
-    public List<User> lire() {
-        return userRepository.findAll();
+    public List<UserDTO> lire() {
+
+        return userRepository.findAll().stream().map(UserMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public User modifier(Long id, User user) {
-        return userRepository.findById(id)
+    public UserDTO modifier(Long id, UserDTO userDTO) {
+      User user=  userRepository.findById(id)
                 .map(p -> {
-                    p.setEmail(user.getEmail());
-                    p.setNom(user.getNom());
-                    p.setLogin(user.getLogin());
-                    p.setPassWord(user.getPassWord());
-                    p.setStatus(user.getStatus());
-                    p.setRole(user.getRole());
+                    p.setEmail(userDTO.getEmail());
+                    p.setNom(userDTO.getNom());
+                    p.setLogin(userDTO.getLogin());
+                    p.setPassWord(userDTO.getPassWord());
+                    p.setStatus(userDTO.getStatus());
+                    p.setRole(userDTO.getRole());
                     return userRepository.save(p);
                 }).orElseThrow(() -> new RuntimeException("Utiisateur introuvable !"));
+
+        return UserMapper.INSTANCE.toDto(user);
     }
 
     @Override

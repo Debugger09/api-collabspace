@@ -1,5 +1,7 @@
 package com.ime.collabspace.service.dto;
 
+import com.ime.collabspace.model.enums.ROLE;
+
 public class UserDTO {
     private Long id;
     private String nom;
@@ -7,7 +9,7 @@ public class UserDTO {
     private String login;
     private String passWord;
     private boolean status;
-
+    private ROLE role;
     public Long getId() {
         return id;
     }
@@ -56,4 +58,15 @@ public class UserDTO {
         this.status = status;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public ROLE getRole() {
+        return role;
+    }
+
+    public void setRole(ROLE role) {
+        this.role = role;
+    }
 }

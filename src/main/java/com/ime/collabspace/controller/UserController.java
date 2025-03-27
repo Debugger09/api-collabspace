@@ -2,13 +2,14 @@ package com.ime.collabspace.controller;
 
 import java.util.List;
 
+import com.ime.collabspace.service.dto.UserDTO;
 import org.springframework.web.bind.annotation.*;
 
 import com.ime.collabspace.model.User;
 import com.ime.collabspace.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService; // Utilisation de final pour l'injection de constructeur
@@ -18,19 +19,19 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public User create(@RequestBody User user) {
-        return userService.creer(user);
+    public UserDTO create(@RequestBody UserDTO userDTO) {
+        return userService.creer(userDTO);
 
     }
 
     @GetMapping("/read")
-    public List<User> read() {
+    public List<UserDTO> read() {
         return userService.lire();
     }
 
     @PutMapping("/update/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return userService.modifier(id, user);
+    public UserDTO update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return userService.modifier(id, userDTO);
     }
 
     @DeleteMapping("/delete/{id}")

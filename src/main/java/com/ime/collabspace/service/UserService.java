@@ -3,13 +3,14 @@ package com.ime.collabspace.service;
 import java.util.List;
 
 import com.ime.collabspace.model.User;
+import com.ime.collabspace.service.dto.UserDTO;
 
 public interface UserService {
-    User creer(User user);
+    UserDTO creer(UserDTO userDTO);
 
-    List<User> lire();
+    List<UserDTO> lire();
 
-    User modifier(Long id, User user);
+    UserDTO modifier(Long id, UserDTO userDTO);
 
     String supprimer(Long id);
 
