@@ -1,5 +1,7 @@
 package com.ime.collabspace.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +12,15 @@ public class Materiel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
-    private String dateRecu;
+    private Date dateEnregistrer;
+
+    public Date getDateEnregistrer() {
+        return dateEnregistrer;
+    }
+
+    public void setDateEnregistrer(Date dateEnregistrer) {
+        this.dateEnregistrer = dateEnregistrer;
+    }
 
     public String getLibelle() {
         return libelle;
@@ -20,20 +30,13 @@ public class Materiel {
         this.libelle = libelle;
     }
 
-    public String getDateRecu() {
-        return dateRecu;
-    }
-
-    public void setDateRecu(String dateRecu) {
-        this.dateRecu = dateRecu;
-    }
 
     @Override
     public String toString() {
         return "Materiel{" +
                 "id=" + id +
                 ", libelle='" + libelle + '\'' +
-                ", dateRecu='" + dateRecu + '\'' +
+                ", dateRecu='" + dateEnregistrer + '\'' +
                 '}';
     }
 

@@ -10,6 +10,7 @@ public class UserDTO {
     private String passWord;
     private boolean status;
     private ROLE role;
+    
     public Long getId() {
         return id;
     }

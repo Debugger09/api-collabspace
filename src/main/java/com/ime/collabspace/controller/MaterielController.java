@@ -1,5 +1,7 @@
 package com.ime.collabspace.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +29,8 @@ public class MaterielController {
     }
 
     @GetMapping("/read")
-    public MaterielDTO read() {
-        return materielService.lireUn(1L);
+    public List<MaterielDTO> read() { 
+        return materielService.lire();
     }
 
     @PutMapping("/update/{id}")

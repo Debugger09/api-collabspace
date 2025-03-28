@@ -12,34 +12,47 @@ import com.ime.collabspace.service.dto.MaterielDTO;
 import com.ime.collabspace.service.mapper.MaterielMapper;
 
 @Service
-public class MaterielServiceImpl implements MaterielService{
-    private MaterielRepository materielRepository;
-
-    public MaterielServiceImpl(MaterielRepository materielRepository) {
+public class MaterielServiceImpl implements MaterielService {
+    
+    private final MaterielRepository materielRepository;
+    private final MaterielMapper materielMapper;
+    
+    public MaterielServiceImpl(MaterielRepository materielRepository, 
+                             MaterielMapper materielMapper) {
         this.materielRepository = materielRepository;
+        this.materielMapper = materielMapper;
     }
 
     @Override
     public MaterielDTO creer(MaterielDTO materielDTO) {
-        Materiel materiel = materielRepository.save(MaterielMapper.INSTANCE.toEntity(materielDTO));
-        return MaterielMapper.INSTANCE.toDto(materiel);
+        // Mapper le DTO vers l'entité
+        Materiel materiel = materielMapper.toEntity(materielDTO);
+
+        // Sauvegarder l'entité dans la base de données
+        Materiel savedMateriel = materielRepository.save(materiel);
+
+        // Mapper l'entité sauvegardée vers le DTO
+        return materielMapper.toDto(savedMateriel);
     }
 
     @Override
     public List<MaterielDTO> lire() {
-        return materielRepository.findAll().stream().map(MaterielMapper.INSTANCE::toDto).collect(Collectors.toList());
+        return materielRepository.findAll()
+                .stream()
+                .map(materielMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public MaterielDTO modifier(Long id, MaterielDTO materielDTO) {
-        Materiel materiel = materielRepository.findById(id)
-                .map(p -> {
-                    p.setLibelle(materielDTO.getLibelle());
-                    p.setDateRecu(materielDTO.getDateRecu());
-                    return materielRepository.save(p);
-                }).orElseThrow(() -> new RuntimeException("Materiel introuvable !"));
-
-        return MaterielMapper.INSTANCE.toDto(materiel);
+        return materielRepository.findById(id)
+                .map(existingMateriel -> {
+                    existingMateriel.setLibelle(materielDTO.getLibelle());
+                    existingMateriel.setDateEnregistrer(materielDTO.getDateEnregistrer());
+                    Materiel updatedMateriel = materielRepository.save(existingMateriel);
+                    return materielMapper.toDto(updatedMateriel);
+                })
+                .orElseThrow(() -> new RuntimeException("Materiel introuvable !"));
     }
 
     @Override
@@ -51,8 +64,7 @@ public class MaterielServiceImpl implements MaterielService{
     @Override
     public MaterielDTO lireUn(Long id) {
         Materiel materiel = materielRepository.findById(id)
-                 .orElseThrow(() -> new RuntimeException("Materiel introuvable avec l'ID : " + id));
-        return MaterielMapper.INSTANCE.toDto(materiel);
-}
-
+                .orElseThrow(() -> new RuntimeException("Materiel introuvable avec l'ID : " + id));
+        return materielMapper.toDto(materiel);
+    }
 }

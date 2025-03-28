@@ -15,26 +15,27 @@ import com.ime.collabspace.service.UserService;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper; // Injecter UserMapper
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper; // Initialiser UserMapper
     }
 
     @Override
     public UserDTO creer(UserDTO userDTO) {
-           User  user=userRepository.save(UserMapper.INSTANCE.toEntity(userDTO));
-        return UserMapper.INSTANCE.toDto(user);
+        User user = userRepository.save(userMapper.toEntity(userDTO)); // Utiliser userMapper
+        return userMapper.toDto(user); // Utiliser userMapper
     }
 
     @Override
     public List<UserDTO> lire() {
-
-        return userRepository.findAll().stream().map(UserMapper.INSTANCE::toDto).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList()); // Utiliser userMapper
     }
 
     @Override
     public UserDTO modifier(Long id, UserDTO userDTO) {
-      User user=  userRepository.findById(id)
+        User user = userRepository.findById(id)
                 .map(p -> {
                     p.setEmail(userDTO.getEmail());
                     p.setNom(userDTO.getNom());
@@ -43,9 +44,9 @@ public class UserServiceImpl implements UserService {
                     p.setStatus(userDTO.getStatus());
                     p.setRole(userDTO.getRole());
                     return userRepository.save(p);
-                }).orElseThrow(() -> new RuntimeException("Utiisateur introuvable !"));
+                }).orElseThrow(() -> new RuntimeException("Utilisateur introuvable !"));
 
-        return UserMapper.INSTANCE.toDto(user);
+        return userMapper.toDto(user); // Utiliser userMapper
     }
 
     @Override
@@ -57,8 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO lireUn(Long id) {
         User user = userRepository.findById(id)
-              .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'ID : " + id));
-        return UserMapper.INSTANCE.toDto(user);
-}
-
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'ID : " + id));
+        return userMapper.toDto(user); // Utiliser userMapper
+    }
 }

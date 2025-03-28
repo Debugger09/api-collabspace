@@ -1,13 +1,11 @@
 package com.ime.collabspace.service.mapper;
 
-import org.mapstruct.factory.Mappers;
-
 import com.ime.collabspace.model.Materiel;
 import com.ime.collabspace.service.dto.MaterielDTO;
+import org.mapstruct.Mapper;
 
-public interface MaterielMapper extends EntityMapper<MaterielDTO, Materiel> {
-    MaterielMapper INSTANCE = Mappers.getMapper(MaterielMapper.class);
+@Mapper(componentModel = "spring")
+public interface MaterielMapper {
     MaterielDTO toDto(Materiel materiel);
-    Materiel toEntity(MaterielDTO dto);
-
+    Materiel toEntity(MaterielDTO materielDTO);
 }

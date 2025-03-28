@@ -1,9 +1,11 @@
 package com.ime.collabspace.service.dto;
 
+import java.sql.Date;
+
 public class MaterielDTO {
     private Long id;
     private String libelle;
-    private String dateRecu;
+    private Date dateEnregistrer;
     
     public Long getId() {
         return id;
@@ -17,11 +19,10 @@ public class MaterielDTO {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-    public String getDateRecu() {
-        return dateRecu;
+    public Date getDateEnregistrer() {
+        return dateEnregistrer;
     }
-    public void setDateRecu(String dateRecu) {
-        this.dateRecu = dateRecu;
+    public void setDateEnregistrer(Date dateEnregistrer) {
+        this.dateEnregistrer = dateEnregistrer;
     }
-
 }
