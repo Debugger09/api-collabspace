@@ -12,14 +12,16 @@ public class Materiel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
+
+    @Column(name = "date_enregistrer")
     private Date dateEnregistrer;
 
-    public Date getDateEnregistrer() {
-        return dateEnregistrer;
+    public Long getId() {
+        return id;
     }
 
-    public void setDateEnregistrer(Date dateEnregistrer) {
-        this.dateEnregistrer = dateEnregistrer;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLibelle() {
@@ -29,6 +31,18 @@ public class Materiel {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
+
+    public Date getDateEnregistrer() {
+        return dateEnregistrer;
+    }
+
+    public void setDateEnregistrer(Date dateEnregistrer) {
+        this.dateEnregistrer = dateEnregistrer;
+    }
+
+    
+
+   
 
 
     @Override

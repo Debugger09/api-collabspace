@@ -25,14 +25,8 @@ public class MaterielServiceImpl implements MaterielService {
 
     @Override
     public MaterielDTO creer(MaterielDTO materielDTO) {
-        // Mapper le DTO vers l'entité
-        Materiel materiel = materielMapper.toEntity(materielDTO);
-
-        // Sauvegarder l'entité dans la base de données
-        Materiel savedMateriel = materielRepository.save(materiel);
-
-        // Mapper l'entité sauvegardée vers le DTO
-        return materielMapper.toDto(savedMateriel);
+        Materiel materiel = materielRepository.save(materielMapper.toEntity(materielDTO));
+        return materielMapper.toDto(materiel);
     }
 
     @Override
@@ -45,14 +39,14 @@ public class MaterielServiceImpl implements MaterielService {
 
     @Override
     public MaterielDTO modifier(Long id, MaterielDTO materielDTO) {
-        return materielRepository.findById(id)
-                .map(existingMateriel -> {
-                    existingMateriel.setLibelle(materielDTO.getLibelle());
-                    existingMateriel.setDateEnregistrer(materielDTO.getDateEnregistrer());
-                    Materiel updatedMateriel = materielRepository.save(existingMateriel);
-                    return materielMapper.toDto(updatedMateriel);
+        Materiel materiel = materielRepository.findById(id)
+                .map(p -> {
+                    p.setLibelle(materielDTO.getLibelle());
+                    p.setDateEnregistrer(materielDTO.getDateEnregistrer());
+                    return materielRepository.save(p);
                 })
                 .orElseThrow(() -> new RuntimeException("Materiel introuvable !"));
+        return materielMapper.toDto(materiel);
     }
 
     @Override
